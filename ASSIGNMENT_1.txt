@@ -143,3 +143,403 @@ ACCOUNT LOCK ;
 
 --9. Delete the tablespace called "test_purposes" (0.2)
 DROP TABLESPACE TEST_PURPOSES;
+
+---CREACIÓN DE TABLAS E INSERCIÓN DE DATOS
+CREATE sequence s_estado
+start with 1
+increment by 1
+ NOCACHE
+ NOCYCLE
+;
+
+CREATE SEQUENCE s_ciudad
+ START WITH     1
+ INCREMENT BY   1
+ NOCACHE
+ NOCYCLE;
+ 
+ CREATE SEQUENCE s_c_costos
+ START WITH     1
+ INCREMENT BY   1
+ NOCACHE
+ NOCYCLE;
+ 
+ CREATE SEQUENCE s_producto
+ START WITH     1
+ INCREMENT BY   1
+ NOCACHE
+ NOCYCLE;
+ 
+ CREATE SEQUENCE s_detalle_fac
+ START WITH     1
+ INCREMENT BY   1
+ NOCACHE
+ NOCYCLE;
+
+CREATE SEQUENCE s_factura
+ START WITH     1
+ INCREMENT BY   1
+ NOCACHE
+ NOCYCLE;
+
+----CREACIÓN DE TABLAS
+IdEstado--CREATE TABLE estado
+(
+id_estado number not null primary key,
+nombre_estado varchar2(20) not null
+)
+
+CREATE TABLE ciudad
+(
+id_ciudad number not null primary key,
+nombre_ciudad varchar2(20) not null,
+codigo_postal varchar2(20),
+id_estado number not null
+--CONSTRAINT FK_ciudad_estado
+--FOREIGN KEY(id_estado) REFERENCES estado(id_estado)
+);
+
+ALTER TABLE ciudad ADD CONSTRAINT FK_ESTADO FOREIGN KEY(id_estado) REFERENCES estado(id_estado);
+
+CREATE TABLE centro_costos
+(
+id_centro_costos number not null primary key,
+nombre_centro_costos varchar2(20) unique
+);
+
+CREATE TABLE producto
+(
+id_producto number not null primary key,
+nombre_producto  varchar2(50) unique,
+precio number(10,2) not null,
+id_centro_costos number not null
+);
+ALTER TABLE producto ADD CONSTRAINT FK_PRODUCTO_CENTRO_COSTOS FOREIGN KEY(id_centro_costos) REFERENCES centro_costos(id_centro_costos);
+
+CREATE TABLE paciente
+(
+num_paciente number not null primary key,
+nombre_paciente varchar2(50) not null,
+direccion_paciente varchar2(50),
+id_ciudad number not null
+);
+ALTER TABLE paciente ADD CONSTRAINT FK_PACIENTE_CIUDAD FOREIGN KEY(id_ciudad) REFERENCES ciudad(id_ciudad);
+
+CREATE TABLE factura
+(
+id_factura number not null  primary key,
+fecha_factura date not null,
+num_paciente number not null
+);
+ALTER TABLE factura ADD CONSTRAINT FK_FACTURA_PACIENTE FOREIGN KEY(num_paciente) REFERENCES paciente(num_paciente);
+
+CREATE TABLE detalle_factura
+(
+id_detalle_factura number not null  primary key,
+id_factura number not null,
+id_producto number not null,
+--subtotal number(10,2) not null,
+--total number(10,2) not null,
+fecha_admision date not null,
+fecha_alta date not null,
+fecha date not null
+);
+
+ALTER TABLE detalle_factura ADD CONSTRAINT FK_FACTURA_DETALLE_FACT FOREIGN KEY(id_factura) REFERENCES factura(id_factura);
+ALTER TABLE detalle_factura ADD CONSTRAINT FK_PRODUCTO_DETALLE_FACT FOREIGN KEY(id_producto) REFERENCES producto(id_producto);
+----inserción de datos
+INSERT INTO estado
+(
+id_estado,
+nombre_estado
+)
+values
+(
+ S_ESTADO.NEXTVAL,
+ 'ANTIOQUIA'
+);
+
+INSERT INTO estado
+(
+id_estado,
+nombre_estado
+)
+values
+(
+ S_ESTADO.NEXTVAL,
+ 'VALLE'
+);
+INSERT INTO estado 
+(
+id_estado,
+nombre_estado
+)
+values
+(
+S_ESTADO.NEXTVAL,
+'ATLANTICO'
+);
+
+INSERT INTO estado 
+(
+id_estado,
+nombre_estado
+)
+values
+(
+S_ESTADO.NEXTVAL,
+'CUNDINAMARCA'
+);
+INSERT INTO estado 
+(
+id_estado,
+nombre_estado
+)
+values
+(
+S_ESTADO.NEXTVAL,
+'SANTANDER'
+);
+
+INSERT INTO ciudad
+(
+id_ciudad ,
+nombre_ciudad,
+codigo_postal,
+id_estado
+)
+values
+(
+s_ciudad.NEXTVAL,
+'MEDELLIN',
+'05001',
+1
+);
+INSERT INTO ciudad
+(
+id_ciudad ,
+nombre_ciudad,
+codigo_postal,
+id_estado
+)
+values
+(
+s_ciudad.NEXTVAL,
+'CALI',
+'04001',
+21
+);
+INSERT INTO ciudad
+(
+id_ciudad ,
+nombre_ciudad,
+codigo_postal,
+id_estado
+)
+values
+(
+s_ciudad.NEXTVAL,
+'BOGOTA',
+'01001',
+23
+);
+INSERT INTO ciudad
+(
+id_ciudad ,
+nombre_ciudad,
+codigo_postal,
+id_estado
+)
+values
+(
+s_ciudad.NEXTVAL,
+'BUCARAMANGA',
+'06001',
+24
+);
+INSERT INTO ciudad
+(
+id_ciudad ,
+nombre_ciudad,
+codigo_postal,
+id_estado
+)
+values
+(
+s_ciudad.NEXTVAL,
+'BARRANQUILLA',
+'07001',
+22
+);
+
+INSERT INTO paciente
+(
+num_paciente,
+nombre_paciente,
+direccion_paciente,
+id_ciudad
+)
+values
+(
+12345,
+'ANGEL DE JESUS GONZALEZ',
+'CALLE 49 50-43',
+(select id_ciudad from ciudad where nombre_ciudad = 'MEDELLIN')
+);
+
+INSERT INTO paciente
+(
+num_paciente,
+nombre_paciente,
+direccion_paciente,
+id_ciudad
+)
+values
+(
+867564,
+'RUBIELA LOPEZ MONTES',
+'CALLE 30 84-203',
+--(select id_ciudad from ciudad where nombre_ciudad = 'MEDELLIN')
+2
+);
+INSERT INTO paciente
+(
+num_paciente,
+nombre_paciente,
+direccion_paciente,
+id_ciudad
+)
+values
+(
+123445,
+'FERNANDO RAMIREZ TRUJILLO',
+'CARRERA 10 84-30',
+--(select id_ciudad from ciudad where nombre_ciudad = 'MEDELLIN')
+3
+);
+
+INSERT INTO paciente
+(
+num_paciente,
+nombre_paciente,
+direccion_paciente,
+id_ciudad
+)
+values
+(
+12346,
+'ANGELICA MARIA BUSTAMANTE RUIZ',
+'CARRERA 45 21-18',
+--(select id_ciudad from ciudad where nombre_ciudad = 'MEDELLIN')
+5
+);
+INSERT INTO paciente
+(
+num_paciente,
+nombre_paciente,
+direccion_paciente,
+id_ciudad
+)
+values
+(
+12347,
+'ARMANDO BARRERA GUTIERREZ',
+'CARRERA 43 6-65',
+--(select id_ciudad from ciudad where nombre_ciudad = 'MEDELLIN')
+1
+);
+INSERT INTO paciente
+(
+num_paciente,
+nombre_paciente,
+direccion_paciente,
+id_ciudad
+)
+values
+(
+12348,
+'ROSMIRA DEL CARMEN JARAMILLO TORREZ',
+'CALLE 29 70-34',
+--(select id_ciudad from ciudad where nombre_ciudad = 'MEDELLIN')
+1
+);
+INSERT INTO paciente
+(
+num_paciente,
+nombre_paciente,
+direccion_paciente,
+id_ciudad
+)
+values
+(
+12349,
+'CAMILA DURANGO',
+'AVENIDA 42 58-61',
+--(select id_ciudad from ciudad where nombre_ciudad = 'MEDELLIN')
+1
+);
+INSERT INTO paciente
+(
+num_paciente,
+nombre_paciente,
+direccion_paciente,
+id_ciudad
+)
+values
+(
+12350,
+'DANIEL DE DIOS ZULUAGA',
+'CARRERA 7 80-03',
+--(select id_ciudad from ciudad where nombre_ciudad = 'MEDELLIN')
+3
+);
+INSERT INTO paciente
+(
+num_paciente,
+nombre_paciente,
+direccion_paciente,
+id_ciudad
+)
+values
+(
+12351,
+'SANTIAGO TRUJILLO LOPEZ',
+'CALLE 12 45-87',
+--(select id_ciudad from ciudad where nombre_ciudad = 'MEDELLIN')
+2
+);
+INSERT INTO paciente
+(
+num_paciente,
+nombre_paciente,
+direccion_paciente,
+id_ciudad
+)
+values
+(
+12352,
+'TERESA TORO LUJAN',
+'CALLE 50 78-92',
+--(select id_ciudad from ciudad where nombre_ciudad = 'MEDELLIN')
+1
+);
+
+----INSERCIÓN CENTRO DE COSTOS
+INSERT INTO centro_costos(ID_CENTRO_COSTOS,NOMBRE_CENTRO_COSTOS)values(s_c_costos.NEXTVAL,'LABORATORIO');
+INSERT INTO centro_costos(ID_CENTRO_COSTOS,NOMBRE_CENTRO_COSTOS)values(s_c_costos.NEXTVAL,'HABITACION');
+INSERT INTO centro_costos(ID_CENTRO_COSTOS,NOMBRE_CENTRO_COSTOS)values(s_c_costos.NEXTVAL,'RADIOLOGIA');
+INSERT INTO centro_costos(ID_CENTRO_COSTOS,NOMBRE_CENTRO_COSTOS)values(s_c_costos.NEXTVAL,'CIRUGIA');
+INSERT INTO centro_costos(ID_CENTRO_COSTOS,NOMBRE_CENTRO_COSTOS)values(s_c_costos.NEXTVAL,'URGENCIAS');
+----INSERCIÓN CENTRO DE PRODUCTOS
+INSERT INTO PRODUCTO(ID_PRODUCTO,NOMBRE_PRODUCTO,PRECIO,ID_CENTRO_COSTOS)values(s_producto.NEXTVAL,'HEMOGRAMA',15000,(SELECT ID_CENTRO_COSTOS FROM CENTRO_COSTOS WHERE NOMBRE_CENTRO_COSTOS = 'LABORATORIO'));
+INSERT INTO PRODUCTO(ID_PRODUCTO,NOMBRE_PRODUCTO,PRECIO,ID_CENTRO_COSTOS)values(s_producto.NEXTVAL,'CREATININA',18000,(SELECT ID_CENTRO_COSTOS FROM CENTRO_COSTOS WHERE NOMBRE_CENTRO_COSTOS = 'LABORATORIO'));
+INSERT INTO PRODUCTO(ID_PRODUCTO,NOMBRE_PRODUCTO,PRECIO,ID_CENTRO_COSTOS)values(s_producto.NEXTVAL,'HEMOGLOBINA',19000,(SELECT ID_CENTRO_COSTOS FROM CENTRO_COSTOS WHERE NOMBRE_CENTRO_COSTOS = 'LABORATORIO'));
+INSERT INTO PRODUCTO(ID_PRODUCTO,NOMBRE_PRODUCTO,PRECIO,ID_CENTRO_COSTOS)values(s_producto.NEXTVAL,'RADIOLOGIA DE EXTREMIDADES INFERIORES',45000,(SELECT ID_CENTRO_COSTOS FROM CENTRO_COSTOS WHERE NOMBRE_CENTRO_COSTOS = 'RADIOLOGIA'));
+INSERT INTO PRODUCTO(ID_PRODUCTO,NOMBRE_PRODUCTO,PRECIO,ID_CENTRO_COSTOS)values(s_producto.NEXTVAL,'RADIOLOGIA DE EXTREMIDADES SUPERIORES',45000,(SELECT ID_CENTRO_COSTOS FROM CENTRO_COSTOS WHERE NOMBRE_CENTRO_COSTOS = 'RADIOLOGIA'));
+INSERT INTO PRODUCTO(ID_PRODUCTO,NOMBRE_PRODUCTO,PRECIO,ID_CENTRO_COSTOS)values(s_producto.NEXTVAL,'RADIOLOGIA DE CRANEO',70000,(SELECT ID_CENTRO_COSTOS FROM CENTRO_COSTOS WHERE NOMBRE_CENTRO_COSTOS = 'RADIOLOGIA'));
+INSERT INTO PRODUCTO(ID_PRODUCTO,NOMBRE_PRODUCTO,PRECIO,ID_CENTRO_COSTOS)values(s_producto.NEXTVAL,'IMPLANTE MAMARIO',5500000,(SELECT ID_CENTRO_COSTOS FROM CENTRO_COSTOS WHERE NOMBRE_CENTRO_COSTOS = 'CIRUGIA'));
+INSERT INTO PRODUCTO(ID_PRODUCTO,NOMBRE_PRODUCTO,PRECIO,ID_CENTRO_COSTOS)values(s_producto.NEXTVAL,'IMPLANTE DE GLUTEOS',5000000,(SELECT ID_CENTRO_COSTOS FROM CENTRO_COSTOS WHERE NOMBRE_CENTRO_COSTOS = 'CIRUGIA'));
+INSERT INTO PRODUCTO(ID_PRODUCTO,NOMBRE_PRODUCTO,PRECIO,ID_CENTRO_COSTOS)values(s_producto.NEXTVAL,'ABDOMINOPLASTIA',6500000,(SELECT ID_CENTRO_COSTOS FROM CENTRO_COSTOS WHERE NOMBRE_CENTRO_COSTOS = 'CIRUGIA'));
+INSERT INTO PRODUCTO(ID_PRODUCTO,NOMBRE_PRODUCTO,PRECIO,ID_CENTRO_COSTOS)values(s_producto.NEXTVAL,'CONSULTA CON MEDICO GENERAL',45000,(SELECT ID_CENTRO_COSTOS FROM CENTRO_COSTOS WHERE NOMBRE_CENTRO_COSTOS = 'URGENCIAS'));
+INSERT INTO PRODUCTO(ID_PRODUCTO,NOMBRE_PRODUCTO,PRECIO,ID_CENTRO_COSTOS)values(s_producto.NEXTVAL,'CONSULTA CON ESPECIALISTA EN PEDIATRA',80000,(SELECT ID_CENTRO_COSTOS FROM CENTRO_COSTOS WHERE NOMBRE_CENTRO_COSTOS = 'URGENCIAS'));
+INSERT INTO PRODUCTO(ID_PRODUCTO,NOMBRE_PRODUCTO,PRECIO,ID_CENTRO_COSTOS)values(s_producto.NEXTVAL,'CONSULTA CON ESPECIALISTA EN ODONTOLOGIA',75000,(SELECT ID_CENTRO_COSTOS FROM CENTRO_COSTOS WHERE NOMBRE_CENTRO_COSTOS = 'URGENCIAS'));
