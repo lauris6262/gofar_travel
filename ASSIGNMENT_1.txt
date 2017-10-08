@@ -1,0 +1,55 @@
+SOLUCION ASSIGNMENT_1 BASE DE DATOS AVANZADA
+
+
+
+INTEGRANTES:
+
+JUAN ESTEBAN MACHUCA
+
+TANIA HERRERA
+
+WALTER MORALES
+
+LAURA RAMIREZ
+
+
+--2. Create 3 Tablespaces (0.2)?:
+--a. first one with 1 Gb and 3 datafiles, tablespace should be named "hospital_bills"
+--b. second one with 500 Mb and 1 datafile, named "test_purposes".
+--c. Undo tablespace with 5Mb of space and 1 datafile
+
+--A) 
+CREATE TABLESPACE HOSPITAL_BILLS DATAFILE 
+'hospital_bills1.dbf' SIZE 333M,
+'hospital_bills2.dbf' SIZE 333M,
+'hospital_bills3.dbf' SIZE 333M
+AUTOEXTEND ON NEXT 1000K MAXSIZE 1024M
+EXTENT MANAGEMENT LOCAL 
+SEGMENT SPACE MANAGEMENT AUTO
+ONLINE;
+
+--B)
+CREATE TABLESPACE TEST_PURPOSES DATAFILE 
+'test_purposes1.dbf' SIZE 100M
+AUTOEXTEND ON NEXT 100K MAXSIZE 500M
+EXTENT MANAGEMENT LOCAL 
+SEGMENT SPACE MANAGEMENT AUTO
+ONLINE;
+
+--C)
+CREATE UNDO TABLESPACE UNDO_TBS datafile
+ 'UNDO_TBS1.dbf' size 5M
+AUTOEXTEND OFF;
+
+--3. Set the undo tablespace to be used in the system (0.2)
+
+ALTER SYSTEM SET UNDO_TABLESPACE = UNDO_TBS scope = both;
+
+
+
+--4. Create a DBA user and assign it to the tablespace called "hospital_bills", this user has unlimited space
+--on the tablespace (0.2)
+CREATE USER DBAUSER IDENTIFIED BY DBAUSER
+DEFAULT TABLESPACE  HOSPITAL_BILLS
+TEMPORARY TABLESPACE TEMP
+QUOTA UNLIMITED ON HOSPITAL_BILLS;
