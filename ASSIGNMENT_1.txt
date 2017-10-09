@@ -313,7 +313,7 @@ values
 s_ciudad.NEXTVAL,
 'MEDELLIN',
 '05001',
-1
+(SELECT id_estado from estado where nombre_estado = 'ANTIOQUIA')
 );
 INSERT INTO ciudad
 (
@@ -327,7 +327,7 @@ values
 s_ciudad.NEXTVAL,
 'CALI',
 '04001',
-21
+(SELECT id_estado from estado where nombre_estado = 'VALLE')
 );
 INSERT INTO ciudad
 (
@@ -341,7 +341,7 @@ values
 s_ciudad.NEXTVAL,
 'BOGOTA',
 '01001',
-23
+(select id_estado from estado where nombre_estado = 'CUNDINAMARCA')
 );
 INSERT INTO ciudad
 (
@@ -355,7 +355,7 @@ values
 s_ciudad.NEXTVAL,
 'BUCARAMANGA',
 '06001',
-24
+(SELECT id_estado from estado where nombre_estado = 'SANTANDER')
 );
 INSERT INTO ciudad
 (
@@ -369,7 +369,7 @@ values
 s_ciudad.NEXTVAL,
 'BARRANQUILLA',
 '07001',
-22
+(SELECT id_estado from estado where nombre_estado = 'ATLANTICO')
 );
 
 INSERT INTO paciente
@@ -399,8 +399,7 @@ values
 867564,
 'RUBIELA LOPEZ MONTES',
 'CALLE 30 84-203',
---(select id_ciudad from ciudad where nombre_ciudad = 'MEDELLIN')
-2
+(select id_ciudad from ciudad where nombre_ciudad = 'MEDELLIN')
 );
 INSERT INTO paciente
 (
@@ -414,8 +413,7 @@ values
 123445,
 'FERNANDO RAMIREZ TRUJILLO',
 'CARRERA 10 84-30',
---(select id_ciudad from ciudad where nombre_ciudad = 'MEDELLIN')
-3
+(select id_ciudad from ciudad where nombre_ciudad = 'MEDELLIN')
 );
 
 INSERT INTO paciente
@@ -430,8 +428,7 @@ values
 12346,
 'ANGELICA MARIA BUSTAMANTE RUIZ',
 'CARRERA 45 21-18',
---(select id_ciudad from ciudad where nombre_ciudad = 'MEDELLIN')
-5
+(select id_ciudad from ciudad where nombre_ciudad = 'BOGOTA')
 );
 INSERT INTO paciente
 (
@@ -445,8 +442,7 @@ values
 12347,
 'ARMANDO BARRERA GUTIERREZ',
 'CARRERA 43 6-65',
---(select id_ciudad from ciudad where nombre_ciudad = 'MEDELLIN')
-1
+(select id_ciudad from ciudad where nombre_ciudad = 'MEDELLIN')
 );
 INSERT INTO paciente
 (
@@ -460,8 +456,7 @@ values
 12348,
 'ROSMIRA DEL CARMEN JARAMILLO TORREZ',
 'CALLE 29 70-34',
---(select id_ciudad from ciudad where nombre_ciudad = 'MEDELLIN')
-1
+(select id_ciudad from ciudad where nombre_ciudad = 'MEDELLIN')
 );
 INSERT INTO paciente
 (
@@ -475,8 +470,7 @@ values
 12349,
 'CAMILA DURANGO',
 'AVENIDA 42 58-61',
---(select id_ciudad from ciudad where nombre_ciudad = 'MEDELLIN')
-1
+(select id_ciudad from ciudad where nombre_ciudad = 'MEDELLIN')
 );
 INSERT INTO paciente
 (
@@ -490,8 +484,7 @@ values
 12350,
 'DANIEL DE DIOS ZULUAGA',
 'CARRERA 7 80-03',
---(select id_ciudad from ciudad where nombre_ciudad = 'MEDELLIN')
-3
+(select id_ciudad from ciudad where nombre_ciudad = 'CALI')
 );
 INSERT INTO paciente
 (
@@ -505,8 +498,7 @@ values
 12351,
 'SANTIAGO TRUJILLO LOPEZ',
 'CALLE 12 45-87',
---(select id_ciudad from ciudad where nombre_ciudad = 'MEDELLIN')
-2
+(select id_ciudad from ciudad where nombre_ciudad = 'BARRANQUILLA')
 );
 INSERT INTO paciente
 (
@@ -520,8 +512,7 @@ values
 12352,
 'TERESA TORO LUJAN',
 'CALLE 50 78-92',
---(select id_ciudad from ciudad where nombre_ciudad = 'MEDELLIN')
-1
+(select id_ciudad from ciudad where nombre_ciudad = 'MEDELLIN')
 );
 
 ----INSERCIÓN CENTRO DE COSTOS
